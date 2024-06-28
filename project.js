@@ -2,31 +2,23 @@ const width = 142
 setDocDimensions(width, 125)
 const minBuildingHeight = 15
 const maxBuildingHeight = 55
-const spacingDistance = 38
+const spacingDistance = 9
 const buildingWidth = 18
 const windowSize = 7
+bt.setRandSeed(872)
 
 const pencil = new bt.Turtle();
 pencil.down()
 
-function building() {
-  const buildingHeight = bt.randIntInRange(minBuildingHeight, maxBuildingHeight)
+function building(height) {
   pencil.forward(spacingDistance)
   pencil.left(90)
-  pencil.forward(buildingHeight)
+  pencil.forward(height)
   pencil.right(90)
   pencil.forward(buildingWidth)
   pencil.right(90)
-  pencil.forward(buildingHeight)
+  pencil.forward(height)
   pencil.left(90)
-}
-
-let numBuildings = 0
-
-// generate buildings based on length of canvas
-while (pencil.pos[0] < (width - buildingWidth - spacingDistance)) {
-  building()
-  numBuildings++
 }
 
 function door(buildingNo) {
@@ -40,28 +32,39 @@ function door(buildingNo) {
   pencil.left(90)
 }
 
-function window(buildingNo) {
+function window(buildingNo, height) {
   const windowNoRow = buildingWidth/windowSize - 1
-  const windowNoCol = buildingHeight/windowSize
-  
-  for (let i = 0; i < windowNoRow; i++) {
-    const gap = ((buildingWidth % windowSize)/2)-0.5
-    pencil.jump([(buildingNo * spacingDistance) + ((buildingNo - 1) * buildingWidth) + gap + (i*windowSize) + (i*1), 10])
-    pencil.left(90)
-    pencil.forward(windowSize)
-    pencil.right(90)
-    pencil.forward(windowSize)
-    pencil.right(90)
-    pencil.forward(windowSize)
-    pencil.right(90)
-    pencil.forward(windowSize)
-    pencil.left(180)
+  const windowNoCol = (height - 7)/windowSize
+  for (let j = 0; j < windowNoCol; j++) {
+    for (let i = 0; i < windowNoRow; i++) {
+      const gap = ((buildingWidth % windowSize)/2)-0.5
+      pencil.jump([(buildingNo * spacingDistance) + ((buildingNo - 1) * buildingWidth) + gap + (i*windowSize) + (i*1), 10+(3*j)+(j*windowSize)])
+      pencil.left(90)
+      pencil.forward(windowSize)
+      pencil.right(90)
+      pencil.forward(windowSize)
+      pencil.right(90)
+      pencil.forward(windowSize)
+      pencil.right(90)
+      pencil.forward(windowSize)
+      pencil.left(180)
+    }
   }
+}
+
+let numBuildings = 0
+let buildingHeights = []
+
+while (pencil.pos[0] < (width - buildingWidth - spacingDistance)) {
+  const buildingHeight = bt.randIntInRange(minBuildingHeight, maxBuildingHeight)
+  buildingHeights.push(buildingHeight)
+  building(buildingHeight)
+  numBuildings++
 }
 
 for (let i = 0; i < numBuildings; i++) {
   door(i+1)
-  window(i+1)
+  window(i+1, buildingHeights[i])
 }
 
 drawLines(pencil.lines())

@@ -1,9 +1,9 @@
-const width = 134
+const width = 142
 setDocDimensions(width, 125)
 const minBuildingHeight = 15
-const maxBuildingHeight = 50
-const spacingDistance = 10
-const buildingWidth = 20
+const maxBuildingHeight = 55
+const spacingDistance = 3
+const buildingWidth = 15
 
 const pencil = new bt.Turtle();
 pencil.down()
@@ -39,9 +39,22 @@ function door(buildingNo) {
   pencil.left(90)
 }
 
-// generate doors for each building
+function window(buildingNo) {
+  pencil.jump([(buildingNo * spacingDistance) + ((buildingNo - 1) * buildingWidth) + (buildingWidth / 2) - 2, 10])
+  pencil.left(90)
+  pencil.forward(7)
+  pencil.right(90)
+  pencil.forward(7)
+  pencil.right(90)
+  pencil.forward(7)
+  pencil.right(90)
+  pencil.forward(7)
+  pencil.left(180)
+}
+
 for (let i = 0; i < numBuildings; i++) {
   door(i+1)
+  window(i+1)
 }
 
 drawLines(pencil.lines())

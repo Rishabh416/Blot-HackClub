@@ -54,17 +54,30 @@ function window(buildingNo, height) {
 
 let numBuildings = 0
 let buildingHeights = []
+let linesNum = 0
+let oldLines = 0
 
 while (pencil.pos[0] < (width - buildingWidth - spacingDistance)) {
   const buildingHeight = bt.randIntInRange(minBuildingHeight, maxBuildingHeight)
   buildingHeights.push(buildingHeight)
   building(buildingHeight)
   numBuildings++
+  linesNum++
 }
+  
+drawLines(pencil.lines().slice(0,linesNum), {fill: "white"})
+oldLines = linesNum
 
 for (let i = 0; i < numBuildings; i++) {
   door(i+1)
-  window(i+1, buildingHeights[i])
+  linesNum++
 }
 
-drawLines(pencil.lines())
+drawLines(pencil.lines().slice(1,linesNum), {fill: "brown"})
+oldLines = linesNum
+
+for (let i = 0; i < numBuildings; i++) {
+  window(i+1, buildingHeights[i])
+  linesNum++
+  drawLines(pencil.lines().slice(4,linesNum), {fill: "yellow"})
+}

@@ -1,9 +1,9 @@
 const width = 142
 setDocDimensions(width, 125)
 const minBuildingHeight = 15
-const maxBuildingHeight = 55
+const maxBuildingHeight = 77
 const spacingDistance = 9
-const buildingWidth = 18
+const buildingWidth = 20
 const windowSize = 7
 bt.setRandSeed(872)
 
@@ -33,8 +33,8 @@ function door(buildingNo) {
 }
 
 function window(buildingNo, height) {
-  const windowNoRow = buildingWidth/windowSize - 1
-  const windowNoCol = (height - 7)/windowSize
+  const windowNoRow = Math.floor(buildingWidth / (windowSize + 1));
+  const windowNoCol = Math.floor((height - 7) / (windowSize + 3));
   for (let j = 0; j < windowNoCol; j++) {
     for (let i = 0; i < windowNoRow; i++) {
       const gap = ((buildingWidth % windowSize)/2)-0.5

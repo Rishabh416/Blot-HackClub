@@ -1,11 +1,10 @@
-const width = 142
+const width = 138
 setDocDimensions(width, 125)
-const minBuildingHeight = 15
-const maxBuildingHeight = 77
+const minBuildingHeight = 81
+const maxBuildingHeight = 45
 const spacingDistance = 9
-const buildingWidth = 35
+const buildingWidth = 34
 const windowSize = 4
-bt.setRandSeed(872)
 
 const pencil = new bt.Turtle();
 pencil.down()
@@ -55,7 +54,6 @@ function window(buildingNo, height) {
 let numBuildings = 0
 let buildingHeights = []
 let linesNum = 0
-let oldLines = 0
 
 while (pencil.pos[0] < (width - buildingWidth - spacingDistance)) {
   const buildingHeight = bt.randIntInRange(minBuildingHeight, maxBuildingHeight)
@@ -65,19 +63,17 @@ while (pencil.pos[0] < (width - buildingWidth - spacingDistance)) {
   linesNum++
 }
   
-drawLines(pencil.lines().slice(0,linesNum), {fill: "white"})
-oldLines = linesNum
+drawLines(pencil.lines().slice(0,linesNum), {fill: "beige"})
 
 for (let i = 0; i < numBuildings; i++) {
   door(i+1)
   linesNum++
 }
 
-drawLines(pencil.lines().slice(1,linesNum), {fill: "brown"})
-oldLines = linesNum
+drawLines(pencil.lines().slice(1,linesNum), {fill: "grey"})
 
 for (let i = 0; i < numBuildings; i++) {
   window(i+1, buildingHeights[i])
-  linesNum++
-  drawLines(pencil.lines().slice(4,linesNum), {fill: "yellow"})
+  for (let i = 0; i < 176; i++) {linesNum++}
+  drawLines(pencil.lines().slice(numBuildings+1,linesNum), {fill: "lightBlue"})
 }
